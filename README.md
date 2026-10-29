@@ -1,3 +1,8 @@
+<a href="https://steitec.net"><picture>
+  <source media="(prefers-color-scheme: dark)" srcset="https://raw.githubusercontent.com/steitec/.github/main/brand/steitec-logo-on-dark.svg">
+  <img align="right" height="32" alt="steitec" src="https://raw.githubusercontent.com/steitec/.github/main/brand/steitec-logo-on-light.svg">
+</picture></a>
+
 # test-protocol
 
 [![CI](https://github.com/steitec/test-protocol/actions/workflows/ci.yml/badge.svg?branch=main)](https://github.com/steitec/test-protocol/actions/workflows/ci.yml)
