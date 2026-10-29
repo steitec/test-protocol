@@ -1,0 +1,50 @@
+[build-system]
+requires = ["setuptools>=77"]
+build-backend = "setuptools.build_meta"
+
+[project]
+name = "test-protocol"
+version = "0.1.0"
+description = "Turn raw test results (CSV, JSON, JUnit XML) into a printable test protocol with limits, PASS/FAIL verdict, traceability and signature fields"
+readme = "README.md"
+license = "MIT"
+license-files = ["LICENSE"]
+authors = [{name = "Ralf Steinert"}]
+requires-python = ">=3.10"
+dependencies = ["tomli>=2; python_version < '3.11'"]
+keywords = ["test report", "test protocol", "production test", "end-of-line test", "junit", "csv", "pdf", "limits", "manufacturing", "test automation"]
+classifiers = [
+    "Development Status :: 3 - Alpha",
+    "Environment :: Console",
+    "Intended Audience :: Developers",
+    "Intended Audience :: Manufacturing",
+    "Programming Language :: Python :: 3",
+    "Programming Language :: Python :: 3.10",
+    "Programming Language :: Python :: 3.11",
+    "Programming Language :: Python :: 3.12",
+    "Programming Language :: Python :: 3.13",
+    "Operating System :: OS Independent",
+    "Topic :: Software Development :: Testing",
+    "Topic :: System :: Hardware",
+    "Topic :: Text Processing :: Markup :: HTML",
+]
+
+[project.urls]
+Homepage = "https://github.com/steitec/test-protocol"
+Repository = "https://github.com/steitec/test-protocol"
+Changelog = "https://github.com/steitec/test-protocol/blob/main/CHANGELOG.md"
+Issues = "https://github.com/steitec/test-protocol/issues"
+
+[project.optional-dependencies]
+dev = ["pytest>=8", "build>=1.2"]
+pdf = ["weasyprint>=62"]
+
+[project.scripts]
+test-protocol = "test_protocol.cli:main"
+
+[tool.setuptools.packages.find]
+where = ["src"]
+
+[tool.pytest.ini_options]
+testpaths = ["tests"]
+filterwarnings = ["error"]
