@@ -10,7 +10,7 @@ from .i18n import fmt_number, t
 from .model import STATUSES, Group, Item, Protocol, as_number
 
 HEADER_KEYS = ("serial", "product", "station", "operator", "started", "finished",
-               "rma", "profile", "mode")
+               "rma", "profile", "mode", "only")
 MAX_ATTACHMENT_LINES = 200
 _STATUS_COLORS = {"PASS": "#1a7f37", "FAIL": "#cf222e", "ERROR": "#9a6700",
                   "SKIP": "#6e7781", "INFO": "#0969da"}
@@ -124,6 +124,11 @@ def _details(p: Protocol, lang: str) -> str:
 
 def _summary(p: Protocol, lang: str) -> str:
     counts = " ".join(f"{_badge(s)} {n}" for s, n in p.counts().items() if n)
+    info = p.counts()["INFO"]
+    if info:
+        key = "not_evaluated_1" if info == 1 else "not_evaluated_n"
+        counts += f'<br><span class="muted">{t(lang, key).format(n=info)}</span>'
+
     failures = p.failures()
     table = ""
     if failures:

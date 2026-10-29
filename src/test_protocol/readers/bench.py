@@ -2,7 +2,7 @@
 
 from __future__ import annotations
 
-from ..model import Attachment, Group, Item, Protocol
+from ..model import Attachment, Group, Item, Protocol, run_group
 
 
 def matches(data: object) -> bool:
@@ -23,11 +23,14 @@ def _item(m: dict) -> Item:
 
 
 def read(data: dict, name: str) -> Protocol:
-    header = {"serial": data.get("serial_number") or "", "station": data.get("station") or "",
+    header = {"serial": str(data.get("serial_number") or ""), "station": data.get("station") or "",
               "started": data.get("started") or ""}
     groups = [Group(step["name"], [_item(m) for m in step.get("measurements", [])],
                     status=step.get("status"), message=step.get("message") or "", source=name)
               for step in data["steps"]]
+    run = run_group(data.get("status"), groups, name)
+    if run:
+        groups.append(run)
     attachments = []
     if data.get("console_log"):
         attachments.append(Attachment("Console log", data["console_log"]))

@@ -69,7 +69,7 @@ def test_fmt_number():
     assert fmt_number(5.0146, "en") == "5.0146"
     assert fmt_number(5.0146, "de") == "5,0146"
     assert fmt_number(1000.0, "en") == "1000"
-    assert fmt_number(0.000012345678, "en") == "1.23457e-05"
+    assert fmt_number(0.000012345678, "en") == "1.2345678e-05"
 
 
 def test_text_tables_same_keys():

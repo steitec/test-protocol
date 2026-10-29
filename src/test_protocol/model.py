@@ -41,7 +41,13 @@ class Item:
 
     def evaluate(self) -> None:
         if self.expect is not None:
-            self.status = "PASS" if str(self.value).strip() == self.expect.strip() else "FAIL"
+            expected = as_number(self.expect)
+            if expected is not None and not isinstance(self.value, str) \
+                    and as_number(self.value) is not None:
+                same = as_number(self.value) == expected
+            else:
+                same = str(self.value).strip() == self.expect.strip()
+            self.status = "PASS" if same else "FAIL"
         elif self.low is not None or self.high is not None:
             number = as_number(self.value)
             if number is None:
@@ -76,6 +82,23 @@ class Group:
         if not self.items:
             return True
         return self.status in _BAD and not any(i.status in _BAD for i in self.items)
+
+
+def run_group(reported: object, groups: list[Group], source: str) -> Group | None:
+    """A group for the run verdict of the input tool, when the steps do not show it.
+
+    An aborted run, or a run the tool called FAIL although every step passed,
+    must not end up as a PASS protocol.
+    """
+    status = str(reported or "").upper()
+    if status == "ABORTED":
+        return Group("Run", status="ERROR", message="run aborted before all steps were done",
+                     source=source)
+    steps_bad = any(g.status in _BAD or any(i.status in _BAD for i in g.items) for g in groups)
+    if status in _BAD and not steps_bad:
+        return Group("Run", status=status,
+                     message=f"the test tool reported the run as {status}", source=source)
+    return None
 
 
 @dataclass

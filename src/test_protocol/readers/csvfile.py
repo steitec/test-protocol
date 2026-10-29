@@ -61,6 +61,8 @@ def read(text: str, name: str) -> Protocol:
                 item.expect = cell          # a text "limit" is the expected text
             else:
                 setattr(item, bound, number)
+        if item.expect is not None and get("value") is not None:
+            item.value = cells["value"]     # a text check compares the cell as written
         result = get("result")
         if result is not None:
             if result.upper() not in STATUSES:

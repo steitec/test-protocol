@@ -2,7 +2,7 @@
 
 from __future__ import annotations
 
-from ..model import Group, Item, Protocol
+from ..model import Group, Item, Protocol, run_group
 
 
 def matches(data: object) -> bool:
@@ -39,6 +39,10 @@ def read(data: dict, name: str) -> Protocol:
         "started": data.get("started"),
         "finished": data.get("finished"),
         "mode": "selftest" if data.get("mode") == "selftest" else None,
+        "only": ", ".join(map(str, data["only"])) if data.get("only") else None,
     }
-    return Protocol({k: str(v) for k, v in header.items() if v},
-                    [_group(step, name) for step in data["steps"]])
+    groups = [_group(step, name) for step in data["steps"]]
+    run = run_group(data.get("status"), groups, name)
+    if run:
+        groups.append(run)
+    return Protocol({k: str(v) for k, v in header.items() if v}, groups)

@@ -17,7 +17,9 @@ TEXTS: dict[str, dict[str, str]] = {
         "tested_by": "Tested by", "approved_by": "Approved by",
         "name": "Name", "date": "Date", "signature": "Signature",
         "truncated": "last {shown} of {total} lines",
-        "page": "Page", "step_failed": "step failed",
+        "page": "Page", "step_failed": "step failed", "only": "Partial run (steps)",
+        "not_evaluated_1": "1 value without limits — not evaluated",
+        "not_evaluated_n": "{n} values without limits — not evaluated",
     },
     "de": {
         "title": "Prüfprotokoll",
@@ -33,7 +35,9 @@ TEXTS: dict[str, dict[str, str]] = {
         "tested_by": "Geprüft von", "approved_by": "Freigegeben von",
         "name": "Name", "date": "Datum", "signature": "Unterschrift",
         "truncated": "letzte {shown} von {total} Zeilen",
-        "page": "Seite", "step_failed": "Schritt fehlgeschlagen",
+        "page": "Seite", "step_failed": "Schritt fehlgeschlagen", "only": "Teillauf (Schritte)",
+        "not_evaluated_1": "1 Wert ohne Grenzwerte — nicht bewertet",
+        "not_evaluated_n": "{n} Werte ohne Grenzwerte — nicht bewertet",
     },
 }
 
@@ -43,5 +47,7 @@ def t(lang: str, key: str) -> str:
 
 
 def fmt_number(v: float, lang: str) -> str:
-    text = f"{v:.6g}"
+    text = repr(float(v))
+    if text.endswith(".0"):
+        text = text[:-2]
     return text.replace(".", ",") if lang == "de" else text

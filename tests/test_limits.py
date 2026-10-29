@@ -73,7 +73,7 @@ def test_unmatched_returned():
     ('measurement = "a"\nlimit = 1', "unknown key 'limit'"),
     ('low = 1', "missing 'measurement'"),
     ('measurement = "a"\nexpect = "x"\nlow = 1', "expect"),
-    ('measurement = "a"\nlow = "one"', "low must be a number"),
+    ('measurement = "a"\nlow = "one"', "low must be a finite number"),
 ])
 def test_bad_files(tmp_path, body, match):
     with pytest.raises(InputError, match=f"limits.toml: limit 1: .*{match}"):

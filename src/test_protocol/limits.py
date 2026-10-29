@@ -2,6 +2,7 @@
 
 from __future__ import annotations
 
+import math
 import sys
 from dataclasses import dataclass
 from pathlib import Path
@@ -39,9 +40,12 @@ def _limit(entry: object, where: str) -> Limit:
             raise InputError(f"{where}: {key} must be text")
     for key in ("low", "high"):
         if key in entry and (isinstance(entry[key], bool)
-                             or not isinstance(entry[key], (int, float))):
-            raise InputError(f"{where}: {key} must be a number")
+                             or not isinstance(entry[key], (int, float))
+                             or not math.isfinite(entry[key])):
+            raise InputError(f"{where}: {key} must be a finite number")
     low, high = entry.get("low"), entry.get("high")
+    if low is None and high is None and "expect" not in entry:
+        raise InputError(f"{where}: needs low, high or expect")
     if "expect" in entry and (low is not None or high is not None):
         raise InputError(f"{where}: use either expect or low/high")
     if low is not None and high is not None and low > high:

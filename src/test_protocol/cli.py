@@ -126,6 +126,10 @@ def run(args: argparse.Namespace) -> int:
         _add_limits(protocol, args.limits)
     if args.require_limits:
         require_limits(protocol)
+    counts = protocol.counts()
+    if counts["PASS"] + counts["FAIL"] + counts["ERROR"] == 0:
+        raise InputError("no evaluated checks: every result is INFO or SKIP; "
+                         "add limits or use --require-limits")
 
     written = []
     if args.json:
