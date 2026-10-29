@@ -7,10 +7,13 @@ import shutil
 import subprocess
 import sys
 import tempfile
+import warnings
 from pathlib import Path
 
 ENV_BROWSER = "TEST_PROTOCOL_BROWSER"
-_NAMES = ("chromium", "chromium-browser", "google-chrome", "google-chrome-stable", "chrome",
+# Branded Chrome first: on Ubuntu 24.04 it has an AppArmor profile that allows its
+# sandbox, while a plain Chromium build may abort with "No usable sandbox".
+_NAMES = ("google-chrome", "google-chrome-stable", "chrome", "chromium", "chromium-browser",
           "msedge", "microsoft-edge")
 _MAC_APPS = ("/Applications/Google Chrome.app/Contents/MacOS/Google Chrome",
              "/Applications/Chromium.app/Contents/MacOS/Chromium",
@@ -46,7 +49,9 @@ def find_browser() -> str | None:
 
 def _weasyprint(html_text: str, out: Path) -> bool:
     try:
-        import weasyprint
+        with warnings.catch_warnings():  # e.g. a note about an optional system library
+            warnings.simplefilter("ignore")
+            import weasyprint
     except (ImportError, OSError):     # OSError: native libraries (Pango) missing
         return False
     weasyprint.HTML(string=html_text).write_pdf(out)
@@ -65,7 +70,9 @@ def _chrome(browser: str, html_text: str, out: Path) -> None:
         except (OSError, subprocess.TimeoutExpired) as e:
             raise PdfError(f"{browser}: {e}") from None
         if result.returncode != 0 or not out.is_file() or out.stat().st_size == 0:
-            tail = "\n".join((result.stderr or "").strip().splitlines()[-5:])
+            lines = (result.stderr or "").strip().splitlines()
+            fatal = [line for line in lines if "FATAL" in line or "ERROR" in line]
+            tail = "\n".join(fatal[:3] or lines[-5:])
             raise PdfError(f"{browser} could not print the PDF (exit {result.returncode}): {tail}")
 
 

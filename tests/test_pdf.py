@@ -17,7 +17,10 @@ def sample_html() -> str:
 
 def has_weasyprint() -> bool:
     try:
-        import weasyprint  # noqa: F401
+        import warnings
+        with warnings.catch_warnings():
+            warnings.simplefilter("ignore")
+            import weasyprint  # noqa: F401
     except (ImportError, OSError):
         return False
     return True
@@ -100,3 +103,48 @@ def test_chrome_real(tmp_path):
     out = tmp_path / "c.pdf"
     assert pdf.write_pdf(sample_html(), out, engine="chrome") == "chrome"
     assert out.read_bytes().startswith(b"%PDF")
+
+
+def test_chrome_failure_shows_fatal_line(monkeypatch, tmp_path):
+    stderr = ("[123:FATAL:zygote_host_impl_linux.cc(128)] No usable sandbox! ...\n"
+              + "\n".join(f"  r{n}: 0000" for n in range(20)) + "\n[end of stack trace]\n")
+    monkeypatch.setattr(pdf, "find_browser", lambda: "/opt/chrome")
+    monkeypatch.setattr(pdf.subprocess, "run", lambda cmd, **kw: subprocess.CompletedProcess(
+        cmd, -6, "", stderr))
+    with pytest.raises(pdf.PdfError, match="No usable sandbox"):
+        pdf.write_pdf("<p>x</p>", tmp_path / "x.pdf", engine="chrome")
+
+
+def test_branded_chrome_preferred(monkeypatch):
+    monkeypatch.delenv("TEST_PROTOCOL_BROWSER", raising=False)
+    found = {"chromium": "/usr/bin/chromium", "google-chrome": "/usr/bin/google-chrome"}
+    monkeypatch.setattr(pdf.shutil, "which", lambda name: found.get(name))
+    assert pdf.find_browser() == "/usr/bin/google-chrome"
+
+
+def test_weasyprint_import_warnings_are_silenced(monkeypatch, tmp_path):
+    import sys
+    import types
+    import warnings
+
+    fake = types.ModuleType("weasyprint")
+
+    class HTML:
+        def __init__(self, string):
+            pass
+
+        def write_pdf(self, out):
+            out.write_bytes(b"%PDF-fake")
+
+    fake.HTML = HTML
+    real_import = __import__
+
+    def noisy_import(name, *args, **kwargs):
+        if name == "weasyprint":
+            warnings.warn("HarfBuzz-Subset will be required", DeprecationWarning)
+            return fake
+        return real_import(name, *args, **kwargs)
+
+    monkeypatch.setattr(builtins, "__import__", noisy_import)
+    monkeypatch.delitem(sys.modules, "weasyprint", raising=False)
+    assert pdf.write_pdf("<p>x</p>", tmp_path / "x.pdf", engine="weasyprint") == "weasyprint"
