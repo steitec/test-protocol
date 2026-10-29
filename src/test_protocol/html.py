@@ -234,6 +234,8 @@ table { width:100%; border-collapse:collapse; }
 .grid th, .grid td, .kv th, .kv td { border-bottom:1px solid var(--line); padding:5px 8px; text-align:left; vertical-align:top; }
 .grid th { background:var(--head); font-size:12px; } .kv th { width:30%; font-weight:600; }
 tr { break-inside:avoid; }
+.group .grid { table-layout:fixed; }
+.group .grid th:nth-child(1) { width:32%; } .group .grid th:nth-child(2) { width:16%; } .group .grid th:nth-child(3) { width:24%; } .group .grid th:nth-child(4) { width:16%; }
 .num { font-variant-numeric:tabular-nums; white-space:nowrap; }
 .hash { font-family:ui-monospace, monospace; font-size:11px; word-break:break-all; }
 .note { color:var(--muted); font-size:12px; }

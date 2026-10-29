@@ -1,0 +1,30 @@
+# Limits for the EPC-24 end-of-line test. They replace the limits that came
+# with the raw data, and PASS/FAIL is evaluated again.
+
+[[limit]]
+step = "Supply rails"
+measurement = "5V0"
+low = 4.9
+high = 5.1
+unit = "V"
+
+[[limit]]
+step = "Supply rails"
+measurement = "3V3"
+low = 3.234
+high = 3.366
+unit = "V"
+
+[[limit]]
+measurement = "Boot time"
+high = 5
+unit = "s"
+
+[[limit]]
+measurement = "BIOS version"
+expect = "5.27"
+
+[[limit]]
+measurement = "write speed"
+low = 20
+unit = "MB/s"

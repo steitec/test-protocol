@@ -1,0 +1,37 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<testsuite name="boot-log-diff examples/golden.log" tests="30" failures="0" errors="0" skipped="0">
+  <properties>
+    <property name="golden" value="examples/golden.log" />
+    <property name="dut" value="examples/golden.log" />
+  </properties>
+  <testcase classname="boot-log-diff.facts" name="model" />
+  <testcase classname="boot-log-diff.facts" name="u-boot" />
+  <testcase classname="boot-log-diff.facts" name="dram" />
+  <testcase classname="boot-log-diff.facts" name="kernel" />
+  <testcase classname="boot-log-diff.facts" name="memory" />
+  <testcase classname="boot-log-diff.facts" name="cpus" />
+  <testcase classname="boot-log-diff.lines" name="log lines" />
+  <testcase classname="boot-log-diff.faults" name="ddr-training" />
+  <testcase classname="boot-log-diff.faults" name="mmc-timeout" />
+  <testcase classname="boot-log-diff.faults" name="mmc-crc" />
+  <testcase classname="boot-log-diff.faults" name="mmc-io-error" />
+  <testcase classname="boot-log-diff.faults" name="eth-phy" />
+  <testcase classname="boot-log-diff.faults" name="eth-no-link" />
+  <testcase classname="boot-log-diff.faults" name="usb-enumeration" />
+  <testcase classname="boot-log-diff.faults" name="usb-overcurrent" />
+  <testcase classname="boot-log-diff.faults" name="i2c-nack" />
+  <testcase classname="boot-log-diff.faults" name="spi-flash" />
+  <testcase classname="boot-log-diff.faults" name="nand" />
+  <testcase classname="boot-log-diff.faults" name="pcie-link" />
+  <testcase classname="boot-log-diff.faults" name="rootfs-mount" />
+  <testcase classname="boot-log-diff.faults" name="fs-corruption" />
+  <testcase classname="boot-log-diff.faults" name="env-default" />
+  <testcase classname="boot-log-diff.faults" name="bad-image" />
+  <testcase classname="boot-log-diff.faults" name="kernel-panic" />
+  <testcase classname="boot-log-diff.faults" name="watchdog-reset" />
+  <testcase classname="boot-log-diff.faults" name="power" />
+  <testcase classname="boot-log-diff.faults" name="thermal" />
+  <testcase classname="boot-log-diff.faults" name="memory-ecc" />
+  <testcase classname="boot-log-diff.faults" name="firmware-missing" />
+  <testcase classname="boot-log-diff.faults" name="rcu-stall" />
+</testsuite>

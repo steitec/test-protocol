@@ -1,0 +1,49 @@
+name: CI
+
+on:
+  push:
+  pull_request:
+
+jobs:
+  test:
+    strategy:
+      fail-fast: false
+      matrix:
+        os: [ubuntu-latest, windows-latest, macos-latest]
+        python: ["3.10", "3.13"]
+    runs-on: ${{ matrix.os }}
+    steps:
+      - uses: actions/checkout@v7
+      - uses: actions/setup-python@v7
+        with:
+          python-version: ${{ matrix.python }}
+      - run: pip install -e ".[dev]"
+      - run: pytest -v -rs
+      - name: The failing example exits with 1, the passing one with 0
+        shell: bash
+        run: |
+          cd examples
+          test-protocol EPC-24-00137/* --limits limits.toml -o pass.html
+          set +e
+          test-protocol EPC-24-00142/* --limits limits.toml -o fail.html
+          code=$?
+          set -e
+          test $code -eq 1
+          grep -q 'EPC-24-00142' fail.html
+
+  pdf:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v7
+      - uses: actions/setup-python@v7
+        with:
+          python-version: "3.13"
+      - run: pip install -e ".[dev,pdf]"
+      - run: pytest -v -rs tests/test_pdf.py
+      - name: PDF with both engines
+        run: |
+          cd examples
+          for engine in weasyprint chrome; do
+            test-protocol EPC-24-00137/* --pdf-engine $engine --pdf $engine.pdf --lang de
+            head -c 4 $engine.pdf | grep -q '%PDF'
+          done

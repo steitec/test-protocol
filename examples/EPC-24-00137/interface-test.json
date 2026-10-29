@@ -1,0 +1,135 @@
+{
+  "mode": "run",
+  "serial_number": "EPC-24-00137",
+  "rma": null,
+  "profile": {
+    "name": "EPC-24 variant B",
+    "version": 3
+  },
+  "station": "EOL-01",
+  "operator": "jdoe",
+  "started": "2026-10-29T18:06:10+01:00",
+  "finished": "2026-10-29T18:08:31+01:00",
+  "tool_version": "0.1.0",
+  "status": "PASS",
+  "only": null,
+  "steps": [
+    {
+      "id": "usb",
+      "name": "USB",
+      "type": "usb",
+      "status": "PASS",
+      "message": "2 test sticks OK",
+      "passed_after_retry": false,
+      "equipment_id": null,
+      "attempts": [
+        {
+          "status": "PASS",
+          "message": "2 test sticks OK",
+          "details": [],
+          "measurements": [
+            {
+              "name": "write speed",
+              "value": 31.2,
+              "unit": "MB/s",
+              "low": 10,
+              "high": null,
+              "passed": true
+            },
+            {
+              "name": "read speed",
+              "value": 88.0,
+              "unit": "MB/s",
+              "low": 20,
+              "high": null,
+              "passed": true
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "id": "lan1",
+      "name": "LAN1",
+      "type": "ethernet",
+      "status": "PASS",
+      "message": "link 1000 Mbit/s full duplex",
+      "passed_after_retry": true,
+      "equipment_id": "CBL-07",
+      "attempts": [
+        {
+          "status": "FAIL",
+          "message": "no link",
+          "details": [
+            "carrier=0"
+          ],
+          "measurements": []
+        },
+        {
+          "status": "PASS",
+          "message": "link 1000 Mbit/s full duplex",
+          "details": [],
+          "measurements": [
+            {
+              "name": "link speed",
+              "value": 1000,
+              "unit": "Mbit/s",
+              "low": 1000,
+              "high": null,
+              "passed": true
+            }
+          ]
+        },
+        {
+          "status": "PASS",
+          "message": "link 1000 Mbit/s full duplex",
+          "details": [],
+          "measurements": [
+            {
+              "name": "link speed",
+              "value": 1000,
+              "unit": "Mbit/s",
+              "low": 1000,
+              "high": null,
+              "passed": true
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "id": "serial1",
+      "name": "Serial 1",
+      "type": "serial",
+      "status": "PASS",
+      "message": "data and handshake lines OK",
+      "passed_after_retry": false,
+      "equipment_id": "LB-03",
+      "attempts": [
+        {
+          "status": "PASS",
+          "message": "data and handshake lines OK",
+          "details": [],
+          "measurements": []
+        }
+      ]
+    },
+    {
+      "id": "led",
+      "name": "Power LED",
+      "type": "confirm",
+      "status": "PASS",
+      "message": "confirmed",
+      "passed_after_retry": false,
+      "equipment_id": null,
+      "attempts": [
+        {
+          "status": "PASS",
+          "message": "confirmed",
+          "details": [],
+          "measurements": []
+        }
+      ]
+    }
+  ]
+}
