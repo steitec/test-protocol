@@ -221,7 +221,8 @@ _CSS = """
 * { box-sizing: border-box; }
 body { background:var(--bg); color:var(--fg); font:14px/1.45 system-ui, -apple-system, "Segoe UI", sans-serif; max-width:960px; margin:2rem auto; padding:0 16px; }
 h1 { margin:0; font-size:24px; } h2 { font-size:17px; margin:1.6rem 0 .5rem; border-bottom:1px solid var(--line); padding-bottom:3px; }
-h3 { font-size:14px; margin:1rem 0 .3rem; }
+h3 { font-size:14px; margin:1rem 0 .3rem; break-after:avoid; }
+.group .note { break-after:avoid; }
 .muted { color:var(--muted); font-weight:normal; }
 header { display:flex; align-items:center; gap:16px; border-bottom:2px solid var(--fg); padding-bottom:10px; }
 .brand { display:flex; align-items:center; gap:10px; } .logo { max-height:48px; max-width:160px; }
