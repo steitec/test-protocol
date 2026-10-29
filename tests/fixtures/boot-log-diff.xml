@@ -1,0 +1,76 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<testsuite name="boot-log-diff examples/faulty.log" tests="30" failures="5" errors="0" skipped="0">
+  <properties>
+    <property name="golden" value="examples/golden.log" />
+    <property name="dut" value="examples/faulty.log" />
+  </properties>
+  <testcase classname="boot-log-diff.facts" name="model" />
+  <testcase classname="boot-log-diff.facts" name="u-boot" />
+  <testcase classname="boot-log-diff.facts" name="dram">
+    <failure message="2 GiB -&gt; 1 GiB" type="fact">golden: 2 GiB
+dut:    1 GiB</failure>
+  </testcase>
+  <testcase classname="boot-log-diff.facts" name="kernel" />
+  <testcase classname="boot-log-diff.facts" name="memory">
+    <failure message="2097152K -&gt; 1048576K" type="fact">golden: 2097152K
+dut:    1048576K</failure>
+  </testcase>
+  <testcase classname="boot-log-diff.facts" name="cpus" />
+  <testcase classname="boot-log-diff.lines" name="log lines">
+    <failure message="8 missing, 8 new" type="lines">@@ golden line 16, dut line 16 @@
+-  DRAM:  2 GiB
++  DRAM:  1 GiB
+
+@@ golden line 39, dut line 39 @@
+-  [    0.000000] Memory: 1987532K/2097152K available (16128K kernel code, 1208K rwdata, 5632K rodata, 2496K init, 586K bss, 76436K reserved, 32768K cma-reserved)
++  [    0.000000] Memory: 939212K/1048576K available (16128K kernel code, 1208K rwdata, 5632K rodata, 2496K init, 586K bss, 76596K reserved, 32768K cma-reserved)
+
+@@ golden line 50, dut line 50 @@
+-  [    1.312003] Micrel KSZ9031 Gigabit PHY 30be0000.ethernet-1:07: attached PHY driver
++! [    1.313120] fec 30be0000.ethernet eth0: Unable to connect to phy
+
+@@ golden line 61, dut line 61 @@
+-  [    2.512990] systemd[1]: Hostname set to &lt;epc8m-00a1f3&gt;.
+-  [    3.120345] fec 30be0000.ethernet eth0: Link is Up - 1Gbps/Full - flow control rx/tx
+-  [    3.611233] IPv6: ADDRCONF(NETDEV_CHANGE): eth0: link becomes ready
+-  Acme Linux 4.2 epc8m-00a1f3 ttymxc1
+-  epc8m-00a1f3 login:
++  [    2.512443] systemd[1]: Hostname set to &lt;epc8m-00b7c2&gt;.
++! [    4.611290] mmc1: Timeout waiting for hardware interrupt.
++! [    4.612001] mmc1: error -110 whilst initialising SD card
++  Acme Linux 4.2 epc8m-00b7c2 ttymxc1
++  epc8m-00b7c2 login:</failure>
+  </testcase>
+  <testcase classname="boot-log-diff.faults" name="ddr-training" />
+  <testcase classname="boot-log-diff.faults" name="mmc-timeout">
+    <failure message="eMMC/SD card does not respond (timeout)" type="error">The host controller gets no answer from the card. For an SD slot: card missing or not seated, card-detect wired wrong, no card supply. For eMMC: VCC/VCCQ missing, a broken CLK/CMD line, or solder joints under the eMMC.
+
+dut line 62: [    4.611290] mmc1: Timeout waiting for hardware interrupt.
+dut line 63: [    4.612001] mmc1: error -110 whilst initialising SD card</failure>
+  </testcase>
+  <testcase classname="boot-log-diff.faults" name="mmc-crc" />
+  <testcase classname="boot-log-diff.faults" name="mmc-io-error" />
+  <testcase classname="boot-log-diff.faults" name="eth-phy">
+    <failure message="Ethernet PHY not found" type="error">The MAC cannot talk to the PHY over MDIO. Check the PHY supply and its reset line, the reference clock (25/50 MHz), the MDIO/MDC solder joints and the PHY address strapping.
+
+dut line 50: [    1.313120] fec 30be0000.ethernet eth0: Unable to connect to phy</failure>
+  </testcase>
+  <testcase classname="boot-log-diff.faults" name="eth-no-link" />
+  <testcase classname="boot-log-diff.faults" name="usb-enumeration" />
+  <testcase classname="boot-log-diff.faults" name="usb-overcurrent" />
+  <testcase classname="boot-log-diff.faults" name="i2c-nack" />
+  <testcase classname="boot-log-diff.faults" name="spi-flash" />
+  <testcase classname="boot-log-diff.faults" name="nand" />
+  <testcase classname="boot-log-diff.faults" name="pcie-link" />
+  <testcase classname="boot-log-diff.faults" name="rootfs-mount" />
+  <testcase classname="boot-log-diff.faults" name="fs-corruption" />
+  <testcase classname="boot-log-diff.faults" name="env-default" />
+  <testcase classname="boot-log-diff.faults" name="bad-image" />
+  <testcase classname="boot-log-diff.faults" name="kernel-panic" />
+  <testcase classname="boot-log-diff.faults" name="watchdog-reset" />
+  <testcase classname="boot-log-diff.faults" name="power" />
+  <testcase classname="boot-log-diff.faults" name="thermal" />
+  <testcase classname="boot-log-diff.faults" name="memory-ecc" />
+  <testcase classname="boot-log-diff.faults" name="firmware-missing" />
+  <testcase classname="boot-log-diff.faults" name="rcu-stall" />
+</testsuite>
