@@ -1,5 +1,10 @@
 # Changelog
 
+## 0.1.1 — 2026-11-08
+
+- Docker image `ghcr.io/steitec/test-protocol` with WeasyPrint and its system libraries,
+  built with every release, so PDF output needs no local installation
+
 ## 0.1.0 — 2026-10-29
 
 First release.

@@ -48,6 +48,24 @@ Python 3.10 or newer. For PDF output you need either WeasyPrint (the `pdf`
 extra; on Windows it needs the GTK/Pango libraries, see the WeasyPrint docs)
 or Chrome, Chromium or Edge, which the tool finds on its own.
 
+## Docker
+
+The image contains WeasyPrint and its system libraries, so PDF output needs no
+local installation. Run it in the folder with your results:
+
+```console
+docker run --rm --user "$(id -u):$(id -g)" -v "$PWD:/data" ghcr.io/steitec/test-protocol \
+    result.json --limits limits.toml -o protocol.html --pdf protocol.pdf
+```
+
+`--user` makes the written files yours; without it the container runs as an
+unprivileged user that cannot write to your folder. On Docker Desktop use
+`--user 0:0` instead, because it shows the folder as owned by root inside the
+container and still writes the files as you on the host. The exit status is the
+same as without Docker (0 PASS, 1 FAIL, 2 bad input). The image is built with
+every release and tagged with the version and `latest`; pin the version in CI.
+PDF fonts come from the image (Liberation Sans).
+
 ## Inputs
 
 The format is detected from the file; `--format` forces it.
