@@ -50,3 +50,25 @@ jobs:
             test-protocol EPC-24-00137/* --pdf-engine $engine --pdf $engine.pdf --lang de
             head -c 4 $engine.pdf | grep -q '%PDF'
           done
+
+  docker:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v7
+      - run: docker build -t test-protocol .
+      - name: Runs unprivileged by default
+        run: test "$(docker run --rm --entrypoint id test-protocol -u)" = 10001
+      - name: HTML and PDF from a mounted folder, exit status 0 for PASS and 1 for FAIL
+        working-directory: examples
+        run: |
+          run() { docker run --rm --user "$(id -u):$(id -g)" -v "$PWD:/data" test-protocol "$@"; }
+          run EPC-24-00137/* --limits limits.toml -o pass.html --pdf pass.pdf --lang de
+          grep -q 'EPC-24-00137' pass.html
+          head -c 4 pass.pdf | grep -q '%PDF'
+          test "$(stat -c %u pass.pdf)" = "$(id -u)"
+          set +e
+          run EPC-24-00142/* --limits limits.toml --pdf fail.pdf
+          code=$?
+          set -e
+          test $code -eq 1
+          head -c 4 fail.pdf | grep -q '%PDF'
