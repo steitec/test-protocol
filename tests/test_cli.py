@@ -141,4 +141,4 @@ def test_pdf_error_exit_2(tmp_path, monkeypatch, capsys):
 def test_module_entry():
     result = subprocess.run([sys.executable, "-m", "test_protocol", "--version"],
                             capture_output=True, text=True)
-    assert result.stdout.strip() == "test-protocol 0.1.1"
+    assert result.stdout.strip() == "test-protocol 0.1.2"

@@ -1,6 +1,6 @@
 # Changelog
 
-## Unreleased
+## 0.1.2 — 2026-11-09
 
 - Result tables: the limit source wraps instead of running into the tolerance
   band, and the tolerance band scales to its column instead of touching the

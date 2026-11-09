@@ -4,7 +4,7 @@ build-backend = "setuptools.build_meta"
 
 [project]
 name = "test-protocol"
-version = "0.1.1"
+version = "0.1.2"
 description = "Turn raw test results (CSV, JSON, JUnit XML) into a printable test protocol with limits, PASS/FAIL verdict, traceability and signature fields"
 readme = "README.md"
 license = "MIT"
