@@ -1,5 +1,12 @@
 # Changelog
 
+## Unreleased
+
+- Result tables: the limit source wraps instead of running into the tolerance
+  band, and the tolerance band scales to its column instead of touching the
+  status badge
+- Tolerance bands are no longer black in PDFs made with WeasyPrint
+
 ## 0.1.1 — 2026-11-08
 
 - Docker image `ghcr.io/steitec/test-protocol` with WeasyPrint and its system libraries,

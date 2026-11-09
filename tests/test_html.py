@@ -137,3 +137,29 @@ def test_print_css():
     assert "size: A4" in out
     assert "counter(pages)" in out
     assert "@media screen and (prefers-color-scheme: dark)" in out
+
+
+def _gauge_item() -> Item:
+    return Item("3V3", "PASS", value=3.3, low=3.234, high=3.366)
+
+
+def test_limit_source_can_wrap_in_its_fixed_width_column():
+    item = _gauge_item()
+    item.limit_source = "limits.toml"
+    p = Protocol(header={"serial": "S"}, groups=[Group("g", [item])])
+    out = render(p)
+    assert '<td class="limit"><span class="num">3.234 … 3.366</span> ' in out
+    assert ".limit { overflow-wrap:anywhere; }" in out
+
+
+def test_gauge_scales_to_its_column():
+    p = Protocol(header={"serial": "S"}, groups=[Group("g", [_gauge_item()])])
+    out = render(p)
+    assert 'viewBox="0 0 120 14"' in out
+    assert '<svg width="120"' not in out
+
+
+def test_gauge_has_real_colors_for_svg_renderers_without_css_variables():
+    p = Protocol(header={"serial": "S"}, groups=[Group("g", [_gauge_item()])])
+    svg = render(p).split("<svg", 1)[1].split("</svg>", 1)[0]
+    assert 'fill="var(' not in svg

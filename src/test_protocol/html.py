@@ -75,6 +75,7 @@ def _limits(item: Item, lang: str) -> str:
         text = f"≤ {fmt_number(item.high, lang)}"
     else:
         return "—"
+    text = f'<span class="num">{text}</span>'
     if item.limit_source:
         text += f' <span class="muted">({_e(item.limit_source)})</span>'
     return text
@@ -93,10 +94,10 @@ def _gauge(item: Item) -> str:
         return 4 + 112 * (min(max(v, lo), hi) - lo) / (hi - lo)
 
     color = _STATUS_COLORS["PASS" if low <= value <= high else "FAIL"]
-    return (f'<svg width="120" height="14" role="img" aria-label="{_e(value)} in {low}..{high}">'
-            f'<rect x="4" y="5" width="112" height="4" rx="2" fill="var(--track)"/>'
+    return (f'<svg class="gauge" viewBox="0 0 120 14" role="img" aria-label="{_e(value)} in {low}..{high}">'
+            f'<rect x="4" y="5" width="112" height="4" rx="2" class="gauge-track" fill="#d0d7de"/>'
             f'<rect x="{x(low):.1f}" y="3" width="{x(high) - x(low):.1f}" height="8" rx="2" '
-            f'fill="var(--band)"/>'
+            f'class="gauge-band" fill="#aceebb"/>'
             f'<circle cx="{x(value):.1f}" cy="7" r="4.5" fill="{color}"/></svg>')
 
 
@@ -141,7 +142,7 @@ def _summary(p: Protocol, lang: str) -> str:
             else:
                 rows.append(f"<tr><td>{_e(group.name)}</td><td>{_e(item.name)}</td>"
                             f'<td class="num">{_value(item, lang)}</td>'
-                            f'<td class="num">{_limits(item, lang)}</td>'
+                            f'<td class="limit">{_limits(item, lang)}</td>'
                             f"<td>{_e(item.message)}</td><td>{_badge(item.status or 'FAIL')}</td></tr>")
         table = (f'<h3>{t(lang, "failures")}</h3><table class="grid"><thead><tr>'
                  f'<th>{t(lang, "group")}</th><th>{t(lang, "item")}</th>'
@@ -162,7 +163,7 @@ def _group(group: Group, lang: str) -> str:
         status = _badge(item.status) if item.status in STATUSES else ""
         rows.append(f"<tr><td>{_e(item.name)}{message}</td>"
                     f'<td class="num">{_value(item, lang)}</td>'
-                    f'<td class="num">{_limits(item, lang)}</td>'
+                    f'<td class="limit">{_limits(item, lang)}</td>'
                     f"<td>{_gauge(item)}</td><td>{status}</td></tr>")
     table = ""
     if rows:
@@ -242,6 +243,9 @@ tr { break-inside:avoid; }
 .group .grid { table-layout:fixed; }
 .group .grid th:nth-child(1) { width:32%; } .group .grid th:nth-child(2) { width:16%; } .group .grid th:nth-child(3) { width:24%; } .group .grid th:nth-child(4) { width:16%; }
 .num { font-variant-numeric:tabular-nums; white-space:nowrap; }
+.limit { overflow-wrap:anywhere; }
+.gauge { display:block; width:100%; max-width:120px; height:auto; }
+.gauge-track { fill:var(--track); } .gauge-band { fill:var(--band); }
 .hash { font-family:ui-monospace, monospace; font-size:11px; word-break:break-all; }
 .note { color:var(--muted); font-size:12px; }
 .counts .badge { margin-left:10px; } .counts .badge:first-child { margin-left:0; }
