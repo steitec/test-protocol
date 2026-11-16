@@ -23,14 +23,12 @@ log comparison, a pytest run — are merged into one protocol.
 ```console
 $ test-protocol examples/EPC-24-00142/* --limits examples/limits.toml
 EPC-24-00142: FAIL
-PASS 43  FAIL 7
+PASS 58  FAIL 5
+  FAIL  Memory / RAM total: 3747 MB (≥ 7500)
   FAIL  Storage / Reallocated sectors: 312 (≤ 10)
   FAIL  Storage / Pending sectors: 24 (≤ 0)
-  FAIL  boot-log-diff.facts / dram: 2 GiB -> 1 GiB
-  FAIL  boot-log-diff.facts / memory: 2097152K -> 1048576K
-  FAIL  boot-log-diff.lines / log lines: 8 missing, 8 new
-  FAIL  boot-log-diff.faults / mmc-timeout: eMMC/SD card does not respond (timeout)
-  FAIL  boot-log-diff.faults / eth-phy: Ethernet PHY not found
+  FAIL  boot-log-diff.facts / ram: 8192 MB -> 4096 MB
+  FAIL  boot-log-diff.lines / log lines: 1 missing, 1 new
 
 $ test-protocol examples/EPC-24-00142/* --limits examples/limits.toml \
     --product "EPC-24 variant B" --operator "J. Doe" --meta order=PO-2026-118 \
