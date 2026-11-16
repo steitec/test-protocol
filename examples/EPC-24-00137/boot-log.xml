@@ -1,8 +1,8 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<testsuite name="boot-log-diff examples/golden.log" tests="30" failures="0" errors="0" skipped="0">
+<testsuite name="boot-log-diff boot-logs/EPC-24-00137.log" tests="43" failures="0" errors="0" skipped="0">
   <properties>
-    <property name="golden" value="examples/golden.log" />
-    <property name="dut" value="examples/golden.log" />
+    <property name="golden" value="boot-logs/golden.log" />
+    <property name="dut" value="boot-logs/EPC-24-00137.log" />
   </properties>
   <testcase classname="boot-log-diff.facts" name="model" />
   <testcase classname="boot-log-diff.facts" name="u-boot" />
@@ -10,6 +10,7 @@
   <testcase classname="boot-log-diff.facts" name="kernel" />
   <testcase classname="boot-log-diff.facts" name="memory" />
   <testcase classname="boot-log-diff.facts" name="cpus" />
+  <testcase classname="boot-log-diff.facts" name="ram" />
   <testcase classname="boot-log-diff.lines" name="log lines" />
   <testcase classname="boot-log-diff.faults" name="ddr-training" />
   <testcase classname="boot-log-diff.faults" name="mmc-timeout" />
@@ -34,4 +35,16 @@
   <testcase classname="boot-log-diff.faults" name="memory-ecc" />
   <testcase classname="boot-log-diff.faults" name="firmware-missing" />
   <testcase classname="boot-log-diff.faults" name="rcu-stall" />
+  <testcase classname="boot-log-diff.faults" name="sata-link" />
+  <testcase classname="boot-log-diff.faults" name="mmc-card-missing" />
+  <testcase classname="boot-log-diff.faults" name="sata-link-missing" />
+  <testcase classname="boot-log-diff.faults" name="nvme-missing" />
+  <testcase classname="boot-log-diff.faults" name="eth-driver-missing" />
+  <testcase classname="boot-log-diff.faults" name="eth-link-missing" />
+  <testcase classname="boot-log-diff.faults" name="usb-device-missing" />
+  <testcase classname="boot-log-diff.faults" name="pcie-link-missing" />
+  <testcase classname="boot-log-diff.faults" name="rtc-missing" />
+  <testcase classname="boot-log-diff.faults" name="spi-flash-missing" />
+  <testcase classname="boot-log-diff.faults" name="can-missing" />
+  <testcase classname="boot-log-diff.faults" name="boot-incomplete" />
 </testsuite>

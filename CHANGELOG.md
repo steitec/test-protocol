@@ -1,5 +1,13 @@
 # Changelog
 
+## 0.1.3 — 2026-11-16
+
+- Examples: EPC-24-00142 now tells one story. Its boot log result came from a different
+  board (an ARM board with U-Boot and eMMC) and said 1 GiB RAM while the bench measured
+  8 GB. Both now show the same fault, half the RAM (4096 MB), next to the worn SSD. The
+  boot logs behind `boot-log.xml` are in `examples/boot-logs/`, with the command that
+  makes the XML; a test keeps bench and boot log of each unit consistent.
+
 ## 0.1.2 — 2026-11-09
 
 - Result tables: the limit source wraps instead of running into the tolerance
